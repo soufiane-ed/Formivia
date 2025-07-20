@@ -1,0 +1,43 @@
+<?php
+function applyboard_search_form_shortcode() {
+    ob_start();
+    ?>
+    <form id="custom-search-form" method="GET" action="" style="display: flex; gap: 10px;  align-items: center;">
+        <input type="text" name="q" placeholder="What to study?" style="padding: 10px; background-color: white; border: solid #00bcd4 0.5px;  border-radius: 10px;  " required />
+        
+        <select name="location" style="padding: 10px; background-color: white; border: solid #00bcd4 0.5px;  border-radius: 10px; ">
+            <option value="ca">Canada</option>
+		<option value="fr">France</option>
+            <option value="de">Allemagne</option>
+		<option value="us">Etas-unis</option>
+            <option value="uk">United Kingdom</option>
+        </select>
+        
+        <button type="submit" style="padding: 10px; background-color: #00bcd4; color: white; border: none;">
+            Search
+        </button>
+    </form>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('custom-search-form');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const query = form.querySelector('[name="q"]').value.trim();
+            const location = form.querySelector('[name="location"]').value;
+
+            if (!query) {
+                alert("Please enter a search term.");
+                return;
+            }
+
+            const redirectUrl = `https://www.applyboard.com/search?filter[locations]=${encodeURIComponent(location)}&filter[q]=${encodeURIComponent(query)}`;
+            window.location.href = redirectUrl;
+        });
+      });
+    </script>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('applyboard_form', 'applyboard_search_form_shortcode');
+>

@@ -1,0 +1,27 @@
+</php
+add_action('wp_footer', function () {
+  ?>
+  <script>
+    jQuery(window).on('elementor/frontend/init', function () {
+      elementorFrontend.hooks.addAction('frontend/element_ready/form.default', function($scope, $){
+        const form = $scope.find('form');
+
+        form.on('submit', function(e) {
+          e.preventDefault(); // stop Elementor's default submission
+
+          // Corriger ici le bon ID du champ
+          const inputVal = $scope.find('#form-field-field_5b23231').val();
+          console.log('Input value:', inputVal);
+
+          if (inputVal) {
+            const redirectUrl = `https://www.applyboard.com/search?filter[locations]=ca&filter[q]=${encodeURIComponent(inputVal)}`;
+            window.location.href = redirectUrl;
+          } else {
+            alert('Le champ est vide ou non trouvé.');
+          }
+        });
+      });
+    });
+  </script>
+  <?php
+});
